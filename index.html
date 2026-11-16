@@ -84,6 +84,7 @@
     background: #fff6dd; border: 1px solid #f0d58a; color: #6b4e00; font-size: 13.5px;
   }
   .notice.show { display: block; }
+  .notice.howto { background: #e8f3fb; border-color: #a9d0ec; color: #12466e; font-size: 14.5px; }
 
   h2 { margin: 22px 22px 6px; font-size: 12.5px; font-weight: 600; letter-spacing: .14em; color: var(--muted); }
   .rows { margin: 0 12px; padding: 0; list-style: none; }
@@ -169,6 +170,7 @@
       <span>存入聯絡人 <small>Save Contact</small></span>
     </a>
     <p class="notice" id="notice"></p>
+    <p class="notice howto" id="howto"><b>還差一步 One more step</b><br>下載完成後，點畫面上的「開啟」→ 選「聯絡人」→ 按「儲存」。<br>After the download, tap <b>Open</b> → <b>Contacts</b> → <b>Save</b>.</p>
   </div>
 
   <h2>聯絡方式 CONTACT</h2>
@@ -258,6 +260,13 @@
   } else if (inLine || inOther) {
     notice.textContent = "若按了沒反應，請點右上角選單改用 Safari／Chrome 開啟此頁。 If nothing happens, open this page in your browser.";
     notice.classList.add("show");
+  }
+
+  // Android 只能先下載聯絡人檔再開啟（iPhone 會直接跳出聯絡人畫面），按下後顯示下一步提示
+  if (/Android/i.test(ua)) {
+    document.getElementById("save").addEventListener("click", function () {
+      document.getElementById("howto").classList.add("show");
+    });
   }
 
   var sheets = {
